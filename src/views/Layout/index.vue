@@ -64,6 +64,7 @@ const mainNav = ref([
         <div :class="{showMiddle:isShow}"></div>
         <div class="bottom"></div>
     </div>
+    
     <RouterView/>
 </template>
 
@@ -75,8 +76,10 @@ const mainNav = ref([
        overflow: hidden;
 }
 .container{
-    width: 50px;
-    height: 1200px;
+    width: 5vh;
+    height: 90vh;
+    /* width: 100%;
+    height: 100%; */
     /* 绝对固定定位 */
     position: fixed;
     left: 0;
