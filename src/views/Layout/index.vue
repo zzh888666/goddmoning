@@ -58,7 +58,9 @@ const mainNav = ref([
                 <svg class="icon" aria-hidden="true">
                     <use :xlink:href="item.icon"></use>
                 </svg>
+                <span>首页</span>
             </a>
+
         </li>
         <div class="top"></div>
         <div :class="{showMiddle:isShow}"></div>
@@ -69,15 +71,10 @@ const mainNav = ref([
 </template>
 
 <style >
-.icon {
-       width: 1em; height: 1em;
-       vertical-align: -0.15em;
-       fill: currentColor;
-       overflow: hidden;
-}
+
 .container{
     width: 5vh;
-    height: 90vh;
+    height: 70vh;
     /* width: 100%;
     height: 100%; */
     /* 绝对固定定位 */
@@ -87,21 +84,31 @@ const mainNav = ref([
     top: 50%;
     transform: translateY(-50%);
     background-color: #fff;
+    box-shadow: 1px 1px 5px 1px rgba(109, 109, 109, 0.5) ;
     /* 右上右下圆角 */
-    border-radius: 0 15px 15px 0;
+    border-radius: 0 5px 5px 0;
     overflow: hidden;
     /* 动画过渡 */
     transition: 0.3s;
+
 }
 .container:hover{
     /* 鼠标移入，展开+改变圆角大小 */
     width: 130px;
-    border-radius: 0 30px 30px 0;
+    border-radius: 0 10px 10px 0;
 }
 .container:hover li a{
     /* 鼠标移入，改变字体颜色 */
     color: #000000;
     /* font-size: 20px; */
+}
+/* 鼠标悬停显示文字 */
+.container:hover  li a span {
+    display: inline;
+    position: absolute;
+    color: #fff;
+    right: 20%;
+    top: 30%;
 }
 .container::before{
     content: "";
@@ -119,6 +126,7 @@ const mainNav = ref([
     margin-left: 30px;
     height: 10%;
     background-color: #ffffff;
+
     border-radius: 0 0 0 20px;
     /* 动画过渡 */
     transition: 0.2s;
@@ -138,6 +146,7 @@ const mainNav = ref([
     height: 100%;
     margin-left: 30px;
     background-color: #ffffff;
+
     border-radius: 20px 0 0 0;
 }
 .container li{
@@ -154,11 +163,28 @@ const mainNav = ref([
     align-items: center;
 }
 .container li a{
+    position:relative;
+    width: 100%;
+    height: 100%;
+    /* height: 100%; */
     /* 字体颜色透明 */
     font-size: 30px;
     /* color: transparent; */
     /* 动画过渡 */
-    transition: 0.3s;
+}
+.container li a svg {
+    position: absolute;
+    top: 30%;
+    left: 20%;
+
+}
+.container li a span {
+    display:none;
+    font-size: 20px;
+    color: #fff;
+    transition: 0.5s;
+
+    /* color: transparent; */
 }
 /* 分别为每一个li元素设置.top的高度 */
 /* ~是兄弟选择器 */

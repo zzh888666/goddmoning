@@ -1,3 +1,14 @@
+<script setup>
+import card from '@/components/card.vue';
+import layout from '@/components/layout.vue';
+
+</script>
+
+
+
 <template>
-    myHome
+    <div >
+        <card/>
+        <layout/>
+    </div>
 </template>
