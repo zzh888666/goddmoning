@@ -49,7 +49,8 @@ const url ='https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.j
 </template>
 
 
-<style>
+<style lang="scss">
+
 .carddiv{
   position: relative;
   background-color: #fff;
@@ -60,6 +61,7 @@ const url ='https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.j
   border-radius: 10px 10px 10px 10px;
   box-shadow: 0 1px 10px 0px rgba(0, 0, 0, 1);
 }
+/* 卡片图片模块 */
 .carddiv .cardimg {
   position: absolute;
   top: 0;
@@ -73,6 +75,7 @@ const url ='https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.j
   z-index: 1;
   border-radius: 10px 10px 10px 10px;
 }
+/* 卡片信息模块 */
 .carddiv .cardinfo {
   position: absolute;
   max-height: 280px;
@@ -85,19 +88,22 @@ const url ='https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.j
   z-index: 1;
   border-radius: 0px 0px 10px 10px;
 }
+/* 发布时间 */
 .cardinfo .date_time{
   height: 10px;
   
-  color: #a09f9f;
+  color: $infoFont;
 }
-.carddiv .cardinfo svg{
+.cardinfo svg{
   font-size: 15px;
   margin-left: 2px;
 }
+
 .cardinfo .date_time span {
   height: 10px;
   margin-left: 5px;
 }
+/* 标题 */
 .cardinfo .title {
   font-size: 20px;
   font-weight: 700;
@@ -106,20 +112,23 @@ const url ='https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.j
   margin-left: 2px;
   margin-top: 20px;
 }
+/* 喜欢收藏 */
 .cardinfo .like {
   height: 10px;
   line-height: 10px;
   margin-top: 20px;
 }
+
 .cardinfo .like span {
-  color: #a09f9f;
+  color: $infoFont;
   margin-left: 1px;
 }
+/* 简介 */
 .cardinfo .info {
   width: 100%;
   height: 50px;
   padding-top: 10px;
-  font-size: 15px;
+  font-size: 14px;
   margin-left: 3px;
   margin-top: 5px;
   /* 多行省略 */
@@ -129,6 +138,7 @@ const url ='https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.j
   overflow: hidden;
   
 }
+/* 标签 */
 .cardinfo .tag {
   margin-top: 15px;
   margin-left: 3px;
