@@ -26,9 +26,18 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
-    server: {
-      host: '192.168.0.104'
-    },
+  
+  },
+  server: {
+    // host: '192.168.0.101',
+    // 解决跨域问题关键
+    proxy: {
+      '/api': {
+        target:'http://localhost:8080',
+        changeOrigin:true,
+        rewrite:(path)=>path.replace(/^\/api/,'')
+      }
+    }
   },
   css:{
     preprocessorOptions: {

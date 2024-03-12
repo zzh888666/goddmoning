@@ -5,7 +5,6 @@ const isShow = ref(false)
 // const isNotShow = ref(true)
 
 const middleMove = ()=>{
-    console.log(111);
     isShow.value = true
 }
 const middleMouseleave = ()=> {
@@ -96,6 +95,7 @@ const mainNav = ref([
     overflow: hidden;
     /* 动画过渡 */
     transition: 0.3s;
+    z-index: 10000;
 
 }
 .container:hover{
