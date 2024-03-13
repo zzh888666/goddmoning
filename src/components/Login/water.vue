@@ -40,9 +40,9 @@
   width: 55rem;
   height: 55rem;
   box-shadow: inset 20px 20px 20px rgba(0, 0, 0, .05),
-              25px 35px 20px rgba(0, 0, 0, .05),
+              25px 35px 20px rgba(10, 10, 10, .05),
               25px 30px 30px rgba(0, 0, 0, .05),
-              inset -20px -20px 25px rgba(255, 255, 255, 0.9);
+              inset -20px -20px 25px rgba(255, 255, 255, 0.8);
     transition: 0.5s ease-in-out;
     display: flex;
     align-items: center;
@@ -57,23 +57,24 @@
 .container .drop::before{
   content: '';
   position: absolute;
-  top:50px;
-  left: 85px;
+  top:60px;
+  left: 95px;
   width: 35px;
   height: 35px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255,.3);
   opacity: 0.9;
 }
 .container .drop::after{
   content: '';
   position: absolute;
-  top:90px;
+  top:100px;
   left: 110px;
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255,.3);
+
   opacity: 0.9;
 }
 

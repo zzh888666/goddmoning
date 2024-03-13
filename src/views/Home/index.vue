@@ -25,7 +25,9 @@ const getdatalist = async () => {
     <div class="homebody">
             <!-- 顶部背景图片加波浪云效果 -->
         <div class="hometopimg">
-            <img src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/c0b4be564561b0c92f25651b5481dc9.jpg" alt="" class="beijing">
+            <!-- <img src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/c0b4be564561b0c92f25651b5481dc9.jpg" alt="" class="beijing"> -->
+            
+            <img src="@/assets/image/bz03re.jpg" alt="">
             <div class="yun">
                 <!-- <img style="background-color: transparent;" src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/yun.png" alt="" class="yunimg">
                 <img style="background-color: transparent;" src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/yun.png" alt="" class="yunimg"> -->
@@ -72,14 +74,16 @@ const getdatalist = async () => {
 .hometopimg {
     position: relative;
     width: 100%;
-    height: 500px;
+    height: 60vh;
     overflow: hidden;
 
 }
-// .hometopimg img {
-//     width: 100%;
-//     height: 100%;
-// }
+.hometopimg img {
+    width: 100%;
+
+    // 剪切图片
+    object-fit: cover;
+}
 .hometopimg .beijing {
     position: absolute;
     top: 0;
