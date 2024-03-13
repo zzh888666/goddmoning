@@ -22,47 +22,53 @@ const getdatalist = async () => {
 
 
 <template>
-    <!-- 顶部背景图片加波浪云效果 -->
-    <div class="hometopimg">
-        <img src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/c0b4be564561b0c92f25651b5481dc9.jpg" alt="" class="beijing">
-        <div class="yun">
-            <!-- <img style="background-color: transparent;" src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/yun.png" alt="" class="yunimg">
-            <img style="background-color: transparent;" src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/yun.png" alt="" class="yunimg"> -->
-                <!-- <img style="background-color: transparent;" src="@/assets/image/yun01.png" alt="" class="yunimg">
-                <img style="background-color: transparent;" src="@/assets/image/yun01.png "alt="" class="yunimg"> -->
-                <!-- <img style="background-color: transparent;" src="@/assets/image/02.png "alt="" class="yunimg"> -->
-            <div class="yun1"></div>
-            <div class="yun2"></div>
+    <div class="homebody">
+            <!-- 顶部背景图片加波浪云效果 -->
+        <div class="hometopimg">
+            <img src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/c0b4be564561b0c92f25651b5481dc9.jpg" alt="" class="beijing">
+            <div class="yun">
+                <!-- <img style="background-color: transparent;" src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/yun.png" alt="" class="yunimg">
+                <img style="background-color: transparent;" src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/yun.png" alt="" class="yunimg"> -->
+                    <!-- <img style="background-color: transparent;" src="@/assets/image/yun01.png" alt="" class="yunimg">
+                    <img style="background-color: transparent;" src="@/assets/image/yun01.png "alt="" class="yunimg"> -->
+                    <!-- <img style="background-color: transparent;" src="@/assets/image/02.png "alt="" class="yunimg"> -->
+                <div class="yun1"></div>
+                <div class="yun2"></div>
+            </div>
         </div>
-    </div>
-    <!-- 主页面 -->
-    <div class="main">
-        
-        <!-- 主页面的头部 -->
-        <div class="hometop">
+        <!-- 主页面 -->
+        <div class="main">
+            
+            <!-- 主页面的头部 -->
+            <div class="hometop">
+                
+                
+            </div>
+            <!-- 内容部分 -->
+            <div class="homecontent">
+            <div class="homecontflex">
+                    <!-- 左侧区域 -->
+                    <div class="homeleftcount">
+                        <dataCard/>
+                    </div>
+                    <!-- 右侧项目展示区域 -->
+                    <div class="project">
+                        <card :data = 'datalist'/>
+                    </div>
+            </div>
+            </div>
             
             
         </div>
-        <!-- 内容部分 -->
-        <div class="homecontent">
-           <div class="homecontflex">
-                <!-- 左侧区域 -->
-                <div class="homeleftcount">
-                    <dataCard/>
-                </div>
-                <!-- 右侧项目展示区域 -->
-                <div class="project">
-                    <card :data = 'datalist'/>
-                </div>
-           </div>
-        </div>
-        
-        
     </div>
 </template>
 
 <style lang="scss">
-/*home页面头部图像*/
+/*home页面头部图像   
+*/
+.homebody {
+    // background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+}
 .hometopimg {
     position: relative;
     width: 100%;
@@ -70,6 +76,10 @@ const getdatalist = async () => {
     overflow: hidden;
 
 }
+// .hometopimg img {
+//     width: 100%;
+//     height: 100%;
+// }
 .hometopimg .beijing {
     position: absolute;
     top: 0;
@@ -80,32 +90,34 @@ const getdatalist = async () => {
 /*云层效果实现*/
 .hometopimg .yun {
     position: absolute;
-    bottom: 0;
+    bottom: -100px;
     width: 6000px;
-    height: 100px;
+    height: 200px;
     z-index: 2;
     background-color: transparent;
 }
 .yun .yun1 {
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     width: 100%;
     height: 100%;
     background-color: transparent;
     background-image: url('@/assets/image/yun03.png');
+    background-size: 50% 50%;
     background-repeat: repeat-x;
     animation: yunAnim 50s linear 1s infinite alternate;
 
 }
 .yun .yun2 {
     position: absolute;
-    bottom: 0;
+    bottom: 0px;
     width: 100%;
     height: 100%;
     background-color: transparent;
-    background-image: url('@/assets/image/yun03.png');
+    background-image: url('@/assets/image/bw01.png');
+    background-size: 50% 50%;
     background-repeat: repeat-x;
-    animation: yunAnim 60s linear 1s infinite alternate;
+    animation: yunAnim 10s linear 1s infinite alternate;
 }
 
 /* 主内容页面*/

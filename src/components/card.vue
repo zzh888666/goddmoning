@@ -85,7 +85,6 @@ console.log(datalist.data);
   top: 0;
   width: 100%;
   height: 350px;
-  
 }
 .carddiv img {
   width: 100%;

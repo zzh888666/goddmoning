@@ -97,6 +97,15 @@ const mainNav = ref([
     transition: 0.3s;
     z-index: 10000;
 
+    /*玻璃磨砂效果*/ 
+    gap: 20px;
+    backdrop-filter: blur(9px);
+    background-color: rgba(255,255,255, 0.033);
+    box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+    border: 2px rgba(255,255,255,0.4) solid;
+    border-bottom: 2px rgba(40,40,40,0.35) solid;
+    border-right: 2px rgba(40,40,40,0.35) solid;
+
 }
 .container:hover{
     /* 鼠标移入，展开+改变圆角大小 */
@@ -124,11 +133,14 @@ const mainNav = ref([
     width: calc(100% - 30px);
     margin-left: 30px;
     height: 10%;
-    background-color: #ffffff;
+    background-color: transparent;
 
     border-radius: 0 0 0 20px;
     /* 动画过渡 */
     transition: 0.2s;
+
+
+   
 }
 .container .showMiddle{
     width: calc(100% - 2px);
@@ -144,7 +156,7 @@ const mainNav = ref([
     width: calc(100% - 30px);
     height: 100%;
     margin-left: 30px;
-    background-color: #ffffff;
+    background-color: transparent;
 
     border-radius: 20px 0 0 0;
 }

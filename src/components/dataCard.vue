@@ -28,7 +28,10 @@
   width: 350px;
   height: 190px;
   /* height: 450px; */
-  background: #fff;
+  /* background: #fff; */
+  /* background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1); */
+  background-image: url(@/assets/image/bc03.png);
+  /*03*/
   border-radius: 20px;
   box-shadow: 0 35px 80px rgba(0, 0, 0, 0.15);
   transition: 0.5s;
