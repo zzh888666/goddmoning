@@ -80,8 +80,7 @@ const mainNav = ref([
 .container{
     width: 40px;
     height: 70vh;
-    /* width: 100%;
-    height: 100%; */
+    /* max-height: 500px; */
     /* 绝对固定定位 */
     position: fixed;
     left: 0;
@@ -107,6 +106,19 @@ const mainNav = ref([
     border-right: 2px rgba(40,40,40,0.35) solid;
 
 }
+
+/**响应式侧边栏 */
+@media (min-width: 1700px) {
+    .container {
+        max-height: 550px;
+    }
+}
+@media (max-width: 1700px) {
+    .container {
+        max-height: 400px;
+    }
+}
+
 .container:hover{
     /* 鼠标移入，展开+改变圆角大小 */
     width: 130px;
@@ -237,6 +249,8 @@ const mainNav = ref([
 .container li:nth-child(8):hover ~ .top{
     height: 80%;
 }
+
+
 </style>
 
 

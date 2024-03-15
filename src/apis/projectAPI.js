@@ -5,3 +5,10 @@ export function getProject() {
         url:'/project'
     })
 }
+export function conditionProject(params) {
+    return http({
+        url:'/project/condition',
+        method:'POST',
+        data:params
+    })
+}

@@ -1,12 +1,12 @@
 <script setup>
 import card from '@/components/card.vue';
 import dataCard from '@/components/dataCard.vue';
+import countcard from '@/components/countcard.vue';
 import {onMounted, ref} from 'vue'
 
 //发起请求获取项目列表
-import { getProject } from '@/apis/projectAPI';
+import { getProject,conditionProject } from '@/apis/projectAPI';
 let datalist = ref([])
-let dataa = []
 const getdatalist = async () => {
    let data = await getProject()
    return data
@@ -17,6 +17,33 @@ const getdatalist = async () => {
     //  console.log(datalist.value);
 
 })
+//绑定表单中日期值
+const datetime = ref([])
+const redatetime = ()=> {
+    // datetime.value = ['','']
+}
+const dataform = ref({
+    condition:"def",
+    tag:"all"
+})
+//搜索框值
+const forinp = ref('')
+
+//根据条件获取项目
+const filterquery = async ()=> {
+console.log(datetime.value);
+
+    let dataJson = {
+        startTime:datetime.value? datetime.value[0]+' '+"00:00:00" : null,
+        endTime:datetime.value ? datetime.value[1]+' '+"00:00:00" : null,
+        condition:dataform.value.condition ? dataform.value.condition : null,
+        tag : dataform.value.tag  ? dataform.value.tag : null
+    }
+    
+    console.log(dataJson);
+    datalist.value =  await conditionProject(dataJson);
+}
+
 </script>
 
 
@@ -43,21 +70,80 @@ const getdatalist = async () => {
             
             <!-- 主页面的头部 -->
             <div class="hometop">
-                
+                <div class="hometopcont"></div>
                 
             </div>
             <!-- 内容部分 -->
             <div class="homecontent">
-            <div class="homecontflex">
-                    <!-- 左侧区域 -->
-                    <div class="homeleftcount">
-                        <dataCard/>
-                    </div>
-                    <!-- 右侧项目展示区域 -->
-                    <div class="project">
-                        <card :data = 'datalist'/>
-                    </div>
-            </div>
+                <div class="homecontflex">
+                        <!-- 左侧区域 -->
+                        <div class="homeleftcount">
+                            <countcard/>
+                            <dataCard/>
+                        </div>
+                        <!-- 右侧项目展示区域 -->
+                        <div class="project">
+                            <!-- 左侧顶部筛选信息 -->
+                            <div class="projecttop">
+                                <el-form :inline="true"  class="projecttop-form" v-model="dataform">
+                                    <!-- 搜索框 -->
+                                    <div class="projecttop-form-search">
+                                        <el-form-item class="search-input" style="border: 0px;">
+                                            <el-input  placeholder="Approved by" clearable  v-model="forinp" />
+                                        </el-form-item>
+                                    </div>
+                                    <!-- 筛选 -->
+                                    <div class="projecttop-form-filter">
+                                        <!-- 筛选左侧 -->
+                                       <div class="filter-left">
+                                            <!-- 热度筛选 -->
+                                            <el-form-item  class="filter-hot">
+                                                <el-select placeholder="默认" clearable v-model="dataform.condition" style="width: 10vw ;" >
+                                                    <el-option label="默认" value="def" />
+                                                    <el-option label="热门" value="watch" />
+                                                    <el-option label="最新" value="updateTime" />
+                                                    <el-option label="最多点赞" value="githubStar" />
+                                                </el-select>
+                                            </el-form-item>
+                                            <!-- 标签筛选 -->
+                                            <el-form-item class="filter-tag" >
+                                                <el-select placeholder="全部" clearable style="width: 10vw" v-model="dataform.tag" >
+                                                    <el-option label="全部" value="all" />
+                                                    <el-option label="python" value="python" />
+                                                    <el-option label="java" value="java" />
+                                                </el-select>
+                                            </el-form-item>
+                                            <!-- 日期筛选 -->
+                                            <el-form-item class="filter-date">
+                                                    <el-date-picker
+                                                    v-model="datetime"
+                                                    type="daterange"
+                                                    format="YYYY-MM-DD"
+                                                    value-format="YYYY-MM-DD"
+                                                    range-separator="到"
+                                                    start-placeholder="开始日期"
+                                                    end-placeholder="结束日期"
+                                                    style="width: 15vw;"
+                                                    @calendar-change="redatetime"
+                                                    />
+                                            </el-form-item>
+                                       </div>
+                                       <!-- 筛选右侧 -->
+                                       <div class="filter-right">
+                                            <!-- 查询按钮 -->
+                                            <el-form-item class="filter-query">
+                                                <el-button type="primary" @click="filterquery" color="#FF8066"  >筛选</el-button>
+                                            </el-form-item>
+                                       </div>
+                                    </div>
+                                </el-form>
+                            </div>
+                            <!-- 内容展示区 -->
+                            <div class="projectmain">
+                                <card :data="datalist" />
+                            </div>
+                        </div>
+                </div>
             </div>
             
             
@@ -148,6 +234,9 @@ const getdatalist = async () => {
     border: 1px dashed $infoFont;
     
 }
+.hometop .hometopcont {
+    height: 50px;
+}
 /*主内容下方区域*/
 .main .homecontent {
     
@@ -175,19 +264,147 @@ const getdatalist = async () => {
     flex-direction: column;
     align-items: stretch;
     margin-top: 50px;
-    margin-right: 60px;
+    margin-right: 30px;
 
 }
 /*放置项目卡片区域*/
 .homecontent .project {
     display: flex;
+    flex-direction: column;
     // flex: 9;
+    align-items: center;
     width: 70%;
     height: 100%;
-    flex-flow: row wrap;
-    // justify-content: space-between;
-    // align-content: space-between;
+    margin-left: 30px;
+    
 }
+/**卡片区域上部分 */
+.homecontent .project .projecttop{
+    width: 100%;
+    height: 120px;
+    // margin-left: 20px;
+    margin-top: 10px;
+
+    
+}
+/**上部区域表单 */
+.projecttop .projecttop-form{
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+/**搜索框div */
+.projecttop-form .projecttop-form-search {
+    width: 100%;
+    padding-left: 20px;
+    display: flex;
+    justify-content: space-around;
+
+}
+//**设置搜索框 */
+.projecttop-form .projecttop-form-search .search-input {
+    width: calc(100% - 0px);
+    height: 40px;
+    margin: 0;
+    border: 0px;
+    border-radius: 5px;
+    box-shadow: 0 0px 2px #00C9A7 , 0 0 0 2px #00C9A7;
+    background-color: #fff;
+}
+
+// @media (max-width :2310px) {
+//     .projecttop-form .projecttop-form-search .search-input{
+//         width: calc(100% - 40px);
+//     }
+    
+// }
+/**去掉搜索框边框 */
+.search-input .el-input .el-input__wrapper{
+
+background: none;
+box-shadow: none;
+
+}
+
+
+/**设置搜索框lable文字行高 */
+.projecttop-form-search .search-input label {
+    line-height: 50px;
+}
+/**筛选区域 */
+.projecttop-form .projecttop-form-filter {
+    width: 100%;
+    display: flex;
+    padding-left: 10px;
+    // justify-content: space-around;
+    align-items: center;
+    margin-top: 30px;
+    height: 50px;
+}
+/**筛选区域左右占比 */
+.projecttop-form-filter .filter-left {
+    flex: 9;
+    
+}
+.projecttop-form-filter .filter-right {
+    flex: 1;
+}
+
+/**select选择器背景 */
+.filter-left .filter-hot .el-select__wrapper,
+.filter-left .filter-date .el-date-editor,
+.filter-left .filter-tag .el-select__wrapper{
+    // background-color: #ff6366;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 2px rgba(204, 204, 204, .3);
+
+    
+}
+
+
+
+.filter-left .el-select__wrapper span {
+    color: #404040;
+}
+
+
+
+/**阻止当前元素element默认margin值 */
+.projecttop-form-filter .filter-hot,
+.projecttop-form-filter .filter-tag,
+.projecttop-form-filter .filter-date,
+.projecttop-form-filter .filter-query
+ {
+    margin: 0;
+    margin-left: 10px;
+}
+
+
+//sele选择框
+.projecttop .projecttop-form .projecttop-tag-select{    
+
+
+}
+
+
+
+
+
+/**卡片区域内部分 */
+.homecontent .project .projectmain{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
+
 
 
 /*动画区域*/

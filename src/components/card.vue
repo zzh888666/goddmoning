@@ -78,30 +78,37 @@ console.log(datalist.data);
   box-shadow: 0 1px 10px 0px rgba(0, 0, 0, .3);
   margin: 10px 0px 10px 20px;
   transition: all .6s;
+  overflow: hidden;
+  cursor: grab;
 }
 /* 卡片图片模块 */
 .carddiv .cardimg {
   position: absolute;
   top: 0;
   width: 100%;
-  height: 350px;
+  height: 300px;
 }
 .carddiv img {
   width: 100%;
   height: 350px;
   z-index: 1;
+  transition: all .5s;
   border-radius: 10px 10px 10px 10px;
+  object-fit: cover;
+}
+.carddiv img:hover {
+  transform: scale(1.2);
+  transition: all .5s;
 }
 /* 卡片信息模块 */
 .carddiv .cardinfo {
   position: absolute;
   max-height: 280px;
-  min-height: 200px;
   background-color: #fff;
   padding: 10px;
   bottom: 0;
   width: 100%;
-  height: 180px;
+  height: 170px;
   z-index: 2;
   border-radius: 0px 0px 10px 10px;
 }
@@ -134,7 +141,7 @@ console.log(datalist.data);
 .cardinfo .like {
   height: 10px;
   line-height: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .cardinfo .like span {
@@ -159,7 +166,7 @@ console.log(datalist.data);
 }
 /* 标签 */
 .cardinfo .tag {
-  margin-top: 15px;
+  margin-top: 5px;
   margin-left: 3px;
 }
 
@@ -169,15 +176,16 @@ console.log(datalist.data);
 @media screen and (max-width: 1340px ) {
   .carddiv {
     width: 28vw;
+
 }
   
 }
-// @media screen and (min-width: 1190px ) {
-//   .carddiv {
-//     width: 400px;
-//   }
+@media screen and (min-width: 1650px ) {
+  .carddiv {
+    margin-left: 20px;
+  }
   
-// }
+}
 
 
 </style>

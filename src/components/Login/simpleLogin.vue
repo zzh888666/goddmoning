@@ -102,7 +102,6 @@ const switchonoff = ()=>{
     box-shadow: 10px 10px 10px #d1d9e6, -10px -10px 10px #f9f9f9;
     border-radius: 12px;
     overflow: hidden;
-    // display: flex;
 }
 
 /* 设置响应式 */
