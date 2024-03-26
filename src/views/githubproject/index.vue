@@ -3,6 +3,7 @@ import card from '@/components/card.vue';
 import dataCard from '@/components/dataCard.vue';
 import countcard from '@/components/countcard.vue';
 import {onMounted, ref} from 'vue'
+import { getHotProject } from '@/apis/projectAPI';
 
 //发起请求获取项目列表
 import { getProject,conditionProject } from '@/apis/projectAPI';
@@ -12,9 +13,16 @@ const getdatalist = async () => {
    return data
 }
 
+const hotList = ref({
+    imgUrl:'',
+    updateTime:'',
+    name:''
+})
+
  onMounted(async ()=>{
      datalist.value =  (await getProject()).data
-    //  console.log(datalist.value);
+    const hotres = await getHotProject()
+    hotList.value = hotres.data
 
 })
 //绑定表单中日期值
@@ -31,7 +39,6 @@ const forinp = ref('')
 
 //根据条件获取项目
 const filterquery = async ()=> {
-console.log(datetime.value);
 
     let dataJson = {
         startTime:datetime.value? datetime.value[0]+' '+"00:00:00" : null,
@@ -40,7 +47,6 @@ console.log(datetime.value);
         tag : dataform.value.tag  ? dataform.value.tag : null
     }
     
-    console.log(dataJson);
     datalist.value =  await conditionProject(dataJson);
 }
 
@@ -78,8 +84,35 @@ console.log(datetime.value);
                 <div class="homecontflex">
                         <!-- 左侧区域 -->
                         <div class="homeleftcount">
+                             <!-- <dataCard/> -->
                             <countcard/>
-                            <dataCard/>
+                           <!-- 热榜 -->
+                            <div class="githubhot">
+                                <div class="githubhot-top">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use xlink:href="#icon-remen"></use>
+                                    </svg>
+                                    <span>今日热榜</span>
+                                </div>
+                                <div class="githubhot-main">
+                                    <!-- 热榜内容 -->
+                                    <div class="githubhot-main-li" v-for="item in hotList" :key="item.id">
+                                        <div class="githubhot-main-li-top">
+                                            <img :src="item.imgUrl" alt="">
+                                            <span>{{ item.name }}</span>
+                                        </div>
+                                        <div class="githubhot-main-li-rq">
+                                            <svg class="icon" aria-hidden="true">
+                                                <use xlink:href="#icon-rili"></use>
+                                            </svg>
+                                            <span>{{ item.updateTime }}</span>
+                                        </div>
+                                    </div>
+                                    
+                                  
+                                </div>
+                            </div>
+                            
                         </div>
                         <!-- 右侧项目展示区域 -->
                         <div class="project">
@@ -109,24 +142,15 @@ console.log(datetime.value);
                                             <el-form-item class="filter-tag" >
                                                 <el-select placeholder="全部" clearable style="width: 10vw" v-model="dataform.tag" >
                                                     <el-option label="全部" value="all" />
-                                                    <el-option label="python" value="python" />
-                                                    <el-option label="java" value="java" />
+                                                    <el-option label="前端" value="前端" />
+                                                    <el-option label="后端" value="后端" />
+                                                    <el-option label="AI" value="AI" />
+                                                    <el-option label="学习项目" value="学习项目" />
+                                                    <el-option label="有趣好玩" value="有趣好玩" />
+
                                                 </el-select>
                                             </el-form-item>
-                                            <!-- 日期筛选 -->
-                                            <el-form-item class="filter-date">
-                                                    <el-date-picker
-                                                    v-model="datetime"
-                                                    type="daterange"
-                                                    format="YYYY-MM-DD"
-                                                    value-format="YYYY-MM-DD"
-                                                    range-separator="到"
-                                                    start-placeholder="开始日期"
-                                                    end-placeholder="结束日期"
-                                                    style="width: 15vw;"
-                                                    @calendar-change="redatetime"
-                                                    />
-                                            </el-form-item>
+                                         
                                        </div>
                                        <!-- 筛选右侧 -->
                                        <div class="filter-right">
@@ -217,7 +241,7 @@ console.log(datetime.value);
     margin: 0  auto;
     width: 89vw;
     // height: 1000px;
-    min-width: 888px;
+    min-width: 1100px;
     max-width: 2200px;
     // padding: 0 20px 20px 20px;
 }
@@ -262,9 +286,9 @@ console.log(datetime.value);
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: center;
     margin-top: 50px;
-    margin-right: 30px;
+    margin-right: 10px;
 
 }
 /*放置项目卡片区域*/
@@ -275,7 +299,7 @@ console.log(datetime.value);
     align-items: center;
     width: 70%;
     height: 100%;
-    margin-left: 30px;
+    // margin-left: 30px;
     
 }
 /**卡片区域上部分 */
@@ -284,7 +308,7 @@ console.log(datetime.value);
     height: 120px;
     // margin-left: 20px;
     margin-top: 10px;
-
+    padding-left: 10px;
     
 }
 /**上部区域表单 */
@@ -344,14 +368,15 @@ box-shadow: none;
     align-items: center;
     margin-top: 30px;
     height: 50px;
+    justify-content: space-between;
 }
 /**筛选区域左右占比 */
 .projecttop-form-filter .filter-left {
-    flex: 9;
+    
     
 }
 .projecttop-form-filter .filter-right {
-    flex: 1;
+   
 }
 
 /**select选择器背景 */
@@ -404,8 +429,94 @@ box-shadow: none;
     margin-left: 15px;
 }
 
+// 热榜
+.githubhot {
+    width: 300px;
+    // height: 350px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow:  0 0 10px 1px rgba(200, 200, 200, .5);
+
+}
+
+.githubhot-top {
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.githubhot-main {
+    width: 100%;
+}
+
+.githubhot-main-li {
+    width: 100%;
+    height: 100px;
+    margin-top: 12px;
+    display: flex;
+    flex-flow: column nowrap;
+    padding-left: 30px;
+}
+.githubhot-main-li:nth-child(1){
+    margin-top: 0;
+}
+.githubhot-main-li:last-child {
+    
+}
+
+.githubhot-main-li-top{
+    width: 100%;
+    height: 70%;
+    display: flex;
+}
+.githubhot-main-li-top img {
+    width: 35%;
+    height: 90%;
+    border-radius: 10px;
+}
+.githubhot-main-li-top span {
+    font-size: 15px;
+    margin-left: 5px;
+    width: 50%;
+    height: 90%;
+    /* 单行省略 */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+    white-space: nowrap;
+    
+}
+.githubhot-main-li-rq {
+    width: 100%;
+    height: 10%;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: "宋体";
+    color: #a4a3a3;
+}
+.githubhot-main-li-rq span {
+    margin-left: 5px;
+}
 
 
+
+
+
+
+@media (min-width: 1340px) {
+    .projecttop-form {
+        width: 95%;
+    }
+    
+}
+@media (max-width: 1390px){
+    .projecttop {
+        padding-left: 0 !important;
+    }
+}
 
 /*动画区域*/
 

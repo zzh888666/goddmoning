@@ -19,7 +19,9 @@ export default defineConfig({
       //开启scss自动配置最重要的 {importStyle:'sass'} 加进去，不然不起效果
       //！！！！！！！！！！！
       resolvers: [ElementPlusResolver({importStyle:'sass'})],
-    }),
+    })
+
+    
     
   ],
   resolve: {
@@ -39,6 +41,7 @@ export default defineConfig({
       }
     }
   },
+  
   css:{
     preprocessorOptions: {
       scss: {

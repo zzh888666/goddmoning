@@ -3,18 +3,31 @@
 <script setup>
 //const url ='https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg'
 
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
 const datalist = defineProps({
   data: Array
 })
-console.log(datalist.data);
+
+const details = (id)=> {
+  router.push({
+    path:'/projectDetails',
+    query: {
+      id:id
+    }
+  })
+
+}
+
 </script>
 
 <template>
     
-      <div class="carddiv" v-for="(item,index) in datalist.data" :key="item.id">
+      <div class="carddiv" v-for="(item,index) in datalist.data" :key="item.id" @click="details(item.id)">
         <!-- 图片 -->
         <div class="cardimg">
-          <img :src='item.imgURl' :alt="item.name">
+          <img :src='item.imgUrl' :alt="item.name">
           
         </div>
         <!-- 图片信息 -->
@@ -70,7 +83,7 @@ console.log(datalist.data);
 .carddiv{
   position: relative;
   background-color: #fff;
-  width: 19vw;
+  width: 30%;
   height: 350px;
   max-width: 1000px;
   min-width: 200px;
@@ -175,17 +188,18 @@ console.log(datalist.data);
 /*媒体查询*/
 @media screen and (max-width: 1340px ) {
   .carddiv {
-    width: 28vw;
+    width: 49%;
+    margin-left: 5px;
 
 }
   
 }
-@media screen and (min-width: 1650px ) {
-  .carddiv {
-    margin-left: 20px;
-  }
+// @media screen and (min-width: 1650px ) {
+//   .carddiv {
+//     margin-left: 20px;
+//   }
   
-}
+// }
 
 
 </style>

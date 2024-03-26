@@ -1,6 +1,7 @@
 
 
 <template>
+    
     <div class="but">
         <div class="butTop">
             读万里书行万里路
@@ -9,10 +10,15 @@
             <a href="http://beian.miit.gov.cn/">豫ICP备2023001693号</a>
         </div>
     </div>
+
+    
 </template>
 
 <style lang="scss">
 .but {
+    // position: absolute;
+    // bottom: 0;
+    margin-top: 20px;
     width: 100%;
     height: 60px;
     background-color: $butColor;

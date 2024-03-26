@@ -1,21 +1,18 @@
 <script setup>
-import LeftNav from '@/components/LeftNav.vue';
 import buttom from '@/components/buttom.vue';
-
+import topNav from '@/components/topNav.vue'
 </script>
 
 <template>
 
+    <!-- 顶部导航栏 -->
+    <topNav/>
 
-
-    <!-- 左侧导航栏 -->
-    <LeftNav/>
-
-    <!-- 路由 -->
+    <!-- 路由出口 -->
     <RouterView/>
 
     <!-- 底部 -->
-    <!-- <buttom/> -->
+    <buttom/>
 </template>
 
 <style >

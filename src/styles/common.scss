@@ -22,6 +22,14 @@ body {
     'Hiragino Sans GB', 'STHeiti', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei',
     sans-serif;
 }
+
+h1,h2,h3,h4,h5,h6{
+  border: 0 !important;
+}
+p {
+  padding-left: 10px !important;
+}
+
 body,
 ul,
 h1,

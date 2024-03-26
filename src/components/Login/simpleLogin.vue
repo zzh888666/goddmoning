@@ -1,6 +1,11 @@
 <script setup>
 import {ref,onMounted} from 'vue'
-
+import { storeToRefs } from 'pinia'
+import { userLoginStore } from '@/stores/user';
+import { addUser } from '@/apis/userAPI';
+import { useRouter } from 'vue-router'
+const router = useRouter()
+//切换动画效果
 let cntisGx = ref(false);
 let contHiden = ref(false);
 let circleIstxr = ref(false);
@@ -15,10 +20,112 @@ const switchonoff = ()=>{
     circleIstxr.value = !circleIstxr.value
     isTxl.value = !isTxl.value
     isZ.value = !isZ.value
-    console.log(isZ.value);
 }
 
 
+//表单
+const labelPosition = ref('right')
+
+const formLabelAlign = ref({
+  name: '',
+  pwd: '',
+  checkpwd: '',
+})
+const ruleFormRef = ref()
+const validatePass = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请输入密码'))
+  } else {
+    if (formLabelAlign.value.checkpwd !== '') {
+      if (!ruleFormRef.value) return
+      ruleFormRef.value.validateField('checkpwd', () => null)
+    }
+    callback()
+  }
+}
+const validatePass2 = (rule, value, callback) => {
+  if (value === '') {
+    callback(new Error('请输入密码'))
+  } else if (value !== formLabelAlign.value.pwd) {
+    callback(new Error("两次密码不配"))
+  } else {
+    callback()
+  }
+}
+
+
+const rules = ref({
+    name: [
+        { required: true, message: '请输入用户名', trigger: 'blur' },
+        { min: 3, max: 5, message: '用户名长度3-5', trigger: 'blur' },
+    ],
+    pwd: [
+
+         { required: true, validator: validatePass, trigger: 'blur' },
+
+        // {required: true, message:'请输入密码',trigger:'失去焦点'},
+        {pattern:/^[a-zA-Z]\w{5,17}$/, message:'以字母开头，长度在6~18之间，只能包含字母和数字' , trigger:'blur'}
+    ],
+    checkpwd: [
+        { required: true, validator: validatePass2, trigger: 'blur' }
+    ]
+})
+//注册
+const submitForm = (formEl) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      addUser({username:formLabelAlign.value.name,password:formLabelAlign.value.pwd}).then(res=>{
+        if (res.code == 0) {
+            ElNotification({
+                    title: '成功',
+                    message: '注册成功，请登录',
+                    type: 'success',
+                })
+        }
+      })
+
+
+    } else {
+      return false
+    }
+  })
+}
+
+
+//登录
+
+const store = userLoginStore()
+
+const {userlogin} = store
+
+const loginruleFormRef = ref()
+const loginform = ref({
+    name:'',
+    pwd:''
+})
+
+
+const login = (formEl) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+        userlogin({username:loginform.value.name,pwd:loginform.value.pwd}).then(res=>{
+            if (res.code == 0) {
+                ElNotification({
+                    title: '成功',
+                    message: '登录成功',
+                    type: 'success',
+                })
+                router.push('/')
+            }
+         })
+        
+    } else {
+      return false
+    }
+  })
+}
 </script>
 
 
@@ -28,32 +135,72 @@ const switchonoff = ()=>{
         <div :class="{simpelcontainer:true, 'a-container':true,'is-txl':isTxl}" id="a-container">
             <form action="" method="" class="form" id="a-form">
                 <h2 class="form_title title">创建账号</h2>
-                <div class="form_icons">
+                <!-- <div class="form_icons">
                     <i class="iconfont icon-QQ"></i>
                     <i class="iconfont icon-weixin"></i>
                     <i class="iconfont icon-bilibili-line"></i>
                 </div>
-                <span class="form_span">选择注册方式活电子邮箱注册</span>
-                <input type="text" class="form_input" placeholder="用户名">
-                <input type="text" class="form_input" placeholder="邮箱">
+                <span class="form_span">选择注册方式活电子邮箱注册</span> -->
+                <!-- <input type="text" class="form_input" placeholder="用户名">
                 <input type="text" class="form_input" placeholder="密码">
-                <button class="form_button button submit">注册</button>
+                <input type="text" class="form_input" placeholder="确认密码"> -->
+                <el-form
+                class="zcform"
+                    ref="ruleFormRef"
+                    label-width="auto"
+                    :model="formLabelAlign"
+                    style="max-width: 600px"
+                    status-icon
+                    :rules="rules"
+                >
+                    <el-form-item label="姓名" prop="name">
+                         <el-input v-model="formLabelAlign.name" />
+                    </el-form-item>
+                    <el-form-item label="密码" prop="pwd">
+                        <el-input v-model="formLabelAlign.pwd" type="password" autocomplete="off" />
+                    </el-form-item>
+                    <el-form-item label="确认密码" prop="checkpwd">
+                        <el-input v-model="formLabelAlign.checkpwd" type="password" autocomplete="off" />
+                    </el-form-item>
+
+                   
+                        <el-button type="primary" @click="submitForm(ruleFormRef)">
+                            注册
+                        </el-button>
+                  
+                </el-form>
+
+                <!-- <button class="form_button button submit">注册</button> -->
             </form>
         </div>
+        
+
 
         <div :class="{'simpelcontainer':true, 'b-container':true,'is-txl':isTxl,'is-z':isZ}" id="b-container">
             <form action="" method="" class="form" id="b-form">
                 <h2 class="form_title title">登入账号</h2>
-                <div class="form_icons">
-                    <i class="iconfont icon-QQ"></i>
-                    <i class="iconfont icon-weixin"></i>
-                    <i class="iconfont icon-bilibili-line"></i>
-                </div>
-                <span class="form_span">选择登录方式活电子邮箱登录</span>
-                <input type="text" class="form_input" placeholder="Email">
-                <input type="text" class="form_input" placeholder="Password">
-                <a class="form_link">忘记密码？</a>
-                <button class="form_button button submit">登录</button>
+                
+
+                <el-form
+                class="loginform"
+                    ref="loginruleFormRef"
+                    :label-position="labelPosition"
+                    label-width="auto"
+                    :model="loginform"
+                    style="max-width: 600px"
+                    status-icon
+                    :rules="rules"
+                >
+                    <el-form-item label="姓名" prop="name">
+                        <el-input v-model="loginform.name" />
+                    </el-form-item>
+                    <el-form-item label="密码" prop="pwd"> 
+                        <el-input v-model="loginform.pwd" type="password"/>
+                    </el-form-item>
+                    <el-button type="primary" @click="login(loginruleFormRef)">
+                            登录
+                        </el-button>
+                </el-form>
             </form>
         </div>
 
@@ -81,6 +228,15 @@ const switchonoff = ()=>{
 </template>
 
 <style lang="scss">
+.loginform,
+.zcform{
+    width: 50%;
+    height: 40%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+}
+
 .simplebody {
     width: 100%;
     height: 100vh;

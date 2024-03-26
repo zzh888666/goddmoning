@@ -16,42 +16,50 @@ const mainNav = ref([
     {
         t: '--t:10%;',
         icon:'#icon-shouye-tianchong',
-        title:'首页'
+        title:'首页',
+        path:'/'
     },
     {
         t:'--t:20%;',
         icon:'#icon-jiaocheng1',
-        title:'教程'
+        title:'github',
+        path:'/project'
     },
     {
         t:'--t:30%;',
         icon:'#icon-dianpu',
-        title:'商店'
+        title:'文章',
+        path:'/article'
     },
     {
         t:'--t:40%;',
         icon:'#icon-liaotian',
-        title:'聊天'
+        title:'教程',
+        path:'/'
     },
     {
         t:'--t:50%;',
         icon:'#icon-tupian',
-        title:'图像'
+        title:'聊天',
+        path:'/'
     },
     {
         t:'--t:60%;',
         icon:'#icon-wode',
-        title:'我的'
+        title:'我的',
+        path:'/'
     },
     {
         t:'--t:70%;',
         icon:'#icon-shezhi',
-        title:'设置'
+        title:'设置',
+        path:'/'
     },
     {
         t:'--t:80%;',
         icon:'#icon-yijianfankui',
-        title:'反馈'
+        title:'反馈',
+        path:'/'
     }
 ])
 
@@ -61,7 +69,7 @@ const mainNav = ref([
     <div class="container" @mouseenter="middleMove" @mouseleave="middleMouseleave">
         <!-- --t是自定义属性，通过var函数可调用 -->
         <li v-for="(item,index)  in mainNav" :key="index" :style=" item.t ">
-            <a href="#">
+            <a :href="item.path">
                 <svg class="icon" aria-hidden="true">
                     <use :xlink:href="item.icon"></use>
                 </svg>
