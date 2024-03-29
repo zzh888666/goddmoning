@@ -1,15 +1,17 @@
 
 <script setup>
-import md from '@/md/01.md?raw'
 import { ref,onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getProjectById,getProjectIsCollect,pcollect,delpcollect } from '@/apis/projectAPI';
 import { userLoginStore } from '@/stores/user';
+
+const show = ref(false)
+
 const router = useRoute()
 let datajson = ref({})
 
-const text = md
 onMounted(async ()=>{
+    show.value = true
     let json  = await getProjectById(router.query)
     datajson.value = json.data
 
@@ -54,7 +56,8 @@ const tosc = ()=>{
 </script>
 
 <template>
-<div class="common-layout">
+<Transition>
+    <div class="common-layout" v-if="show">
     <el-container class="projectDetailsbody">
        
         <el-main class="details">
@@ -141,14 +144,29 @@ const tosc = ()=>{
       <el-footer ></el-footer>
     </el-container>
   </div>
+</Transition>
     
 </template>
 
 
 <style lang="scss">
+
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+
 .projectDetailsbody {
     background-color: rgb(250, 250, 250);
     height: 100vh;
+    min-height: 750px;
 }
 .detailsheader {
     width: 100%;
@@ -163,10 +181,9 @@ const tosc = ()=>{
 .details {
     width: 1300px;
     margin: 0px auto;
-    display: flex;
+    display: flex !important;
     flex-flow: row nowrap;
     border-radius: 10px;
-    overflow: visible;
 }
 /**主体部分 */
 .detailsmain {
@@ -175,7 +192,9 @@ const tosc = ()=>{
     background-color: #fff;
     box-shadow:  0 0 10px 5px rgba(240, 240, 240, 1);
     border-radius: 10px;
-    padding: 0 10px;
+    padding: 0 10px;   
+    overflow: auto;
+
 }
 
 /*卡片区域 */

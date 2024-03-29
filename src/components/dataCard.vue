@@ -1,7 +1,7 @@
 <template>
     <div class="datacard">
         <div class="imgBx">
-            <img src="@/assets/image/img.png">
+            <img src="https://zzh2003.oss-cn-heyuan.aliyuncs.com/yun01.png">
         </div>
         <div class="datacardcontent">
             <div class="details">
@@ -27,10 +27,7 @@
   position: relative;
   width: 350px;
   height: 190px;
-  /* height: 450px; */
-  /* background: #fff; */
-  /* background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1); */
-  /* background-image: url(@/assets/image/bc03.png); */
+
   background: linear-gradient(45deg, #FFFFFF 13%,#CFDCF3 38%,#C5DBF2 55%,#FFFFFF 82%);
   /*03*/
   border-radius: 20px;

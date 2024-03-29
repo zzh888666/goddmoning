@@ -1,6 +1,5 @@
 
 <script setup>
-import md from '@/md/01.md?raw'
 import { ref,onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { getArticleById,acollect ,delacollect,getIsCollect } from '@/apis/articleAPI';
@@ -8,13 +7,14 @@ import { nextTick } from 'vue';
 import { userLoginStore } from '@/stores/user';
 const router = useRoute()
 
-
+const show = ref(false)
 
 let datajson = ref({})
 
 let mddom = ref()
 let titles = ref([])
 onMounted(async ()=>{
+    show.value = true
     // 获取文章
     let json  = await getArticleById(router.query)
     datajson.value = json.data
@@ -94,8 +94,8 @@ const isCollect = ()=>{
 
 <template>
 
-
-<div class="common-layout">
+<Transition>
+    <div class="common-layout" v-if="show">
     <el-container class="projectDetailsbody">
         
         <el-main class="details" >
@@ -172,11 +172,24 @@ const isCollect = ()=>{
       <el-footer style="height: 500px;"></el-footer>
     </el-container>
   </div>
+</Transition>
+
     
 </template>
 
 
 <style lang="scss">
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .projectDetailsbody {
     background-color: rgb(250, 250, 250);
     font-family: "微软雅黑";
@@ -188,7 +201,7 @@ const isCollect = ()=>{
     max-width: 1400px;
     min-width: 900px;
     margin: 50px auto;
-    display: flex;
+    display: flex !important;
     flex-flow: row nowrap;
     // background-color: #fff;
     border-radius: 10px;
@@ -197,6 +210,8 @@ const isCollect = ()=>{
 }
 /**主体部分 */
 .detailsmain {
+    border-radius: 10px;
+    box-shadow: 0 0 10px 5px #ededed;
     width: 70%;
     flex: 7;
     background-color: #fff;
@@ -209,6 +224,7 @@ const isCollect = ()=>{
     font-size: 25px;
     padding-left: 25px;
     font-weight: 700;
+    margin-top: 10px;
 }
 .details .vuepress-markdown-body{
     padding-top: 0;
@@ -228,7 +244,9 @@ const isCollect = ()=>{
     width: 90%;
     height: 350px;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 5px #e8e8e8;
+    margin-bottom: 10px;
 }
 
 .zz-tx-name-age {
@@ -240,6 +258,7 @@ const isCollect = ()=>{
 .zz-tx {
     width: 40%;
     height: 100%;
+    margin-left: 5px;
     display: flex;
     align-items: center;
 }
@@ -320,6 +339,7 @@ const isCollect = ()=>{
     margin-top: 10px;
     font-size: 15px;
     border-radius: 10px;
+    box-shadow: 0 0 10px 5px #e8e8e8;
 
 }
 .wz-ml-dh .wz-ml-dh-sm {
@@ -332,22 +352,27 @@ const isCollect = ()=>{
     border-radius: 10px 10px 0 0 ; 
 }
 .wz-ml-dh .wz-ml-dh-md {
+    padding: 2px 20px;
     width: 100%;
     height: 530px;
     overflow: auto;
 }
 
 .wz-ml-dh .wz-ml-dh-md div {
+    cursor: grab;
     height: 40px;
-    padding:0 10px;
+    border-radius: 10px;
     /**单行省略 */
     text-overflow: ellipsis;
     overflow: hidden;
     word-break: break-all;
+    transition: all .5s;
     white-space: nowrap;
 }
 .wz-ml-dh .wz-ml-dh-md div:hover {
-    background-color: #ebebeb;
+    // background-color: #e89e70;
+    box-shadow: 0 0 10px 5px #e8e8e8;
+    transition: all .5s;
 }
 
 // 点赞按钮
@@ -372,5 +397,6 @@ const isCollect = ()=>{
     font-size: 30px;
     border-radius: 10px;
     transition: all .5s;
+    cursor: grab;
 }
 </style>

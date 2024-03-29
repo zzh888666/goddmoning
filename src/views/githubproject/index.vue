@@ -4,6 +4,11 @@ import dataCard from '@/components/dataCard.vue';
 import countcard from '@/components/countcard.vue';
 import {onMounted, ref} from 'vue'
 import { getHotProject } from '@/apis/projectAPI';
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+
+const show = ref(false)
 
 //发起请求获取项目列表
 import { getProject,conditionProject } from '@/apis/projectAPI';
@@ -20,7 +25,8 @@ const hotList = ref({
 })
 
  onMounted(async ()=>{
-     datalist.value =  (await getProject()).data
+    show.value =true
+    datalist.value =  (await getProject()).data
     const hotres = await getHotProject()
     hotList.value = hotres.data
 
@@ -50,23 +56,28 @@ const filterquery = async ()=> {
     datalist.value =  await conditionProject(dataJson);
 }
 
+const details = (id)=> {
+  router.push({
+    path:'/projectDetails',
+    query: {
+      id:id
+    }
+  })
+
+}
 </script>
 
 
 
 <template>
-    <div class="homebody">
+    <Transition>
+        <div class="homebody" v-if="show">
             <!-- 顶部背景图片加波浪云效果 -->
         <div class="hometopimg">
-            <!-- <img src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/c0b4be564561b0c92f25651b5481dc9.jpg" alt="" class="beijing"> -->
             
-            <img src="@/assets/image/bz03re.jpg" alt="">
+            <img src="https://zzh2003.oss-cn-heyuan.aliyuncs.com/bz03re.jpg" alt="">
             <div class="yun">
-                <!-- <img style="background-color: transparent;" src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/yun.png" alt="" class="yunimg">
-                <img style="background-color: transparent;" src="https://zzh-big-event.oss-cn-beijing.aliyuncs.com/yun.png" alt="" class="yunimg"> -->
-                    <!-- <img style="background-color: transparent;" src="@/assets/image/yun01.png" alt="" class="yunimg">
-                    <img style="background-color: transparent;" src="@/assets/image/yun01.png "alt="" class="yunimg"> -->
-                    <!-- <img style="background-color: transparent;" src="@/assets/image/02.png "alt="" class="yunimg"> -->
+               nd-color: transparent;" src="@/assets/image/02.png "alt="" class="yunimg"> -->
                 <div class="yun1"></div>
                 <div class="yun2"></div>
             </div>
@@ -96,7 +107,7 @@ const filterquery = async ()=> {
                                 </div>
                                 <div class="githubhot-main">
                                     <!-- 热榜内容 -->
-                                    <div class="githubhot-main-li" v-for="item in hotList" :key="item.id">
+                                    <div class="githubhot-main-li" v-for="item in hotList" :key="item.id" @click="details(item.id)">
                                         <div class="githubhot-main-li-top">
                                             <img :src="item.imgUrl" alt="">
                                             <span>{{ item.name }}</span>
@@ -173,14 +184,24 @@ const filterquery = async ()=> {
             
         </div>
     </div>
+    </Transition>
 </template>
 
 <style lang="scss">
-/*home页面头部图像   
-*/
-.homebody {
-    // background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+
+
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s ease;
 }
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+
 .hometopimg {
     position: relative;
     width: 100%;
@@ -205,7 +226,7 @@ const filterquery = async ()=> {
 .hometopimg .yun {
     position: absolute;
     bottom: -100px;
-    width: 6000px;
+    width: 8000px;
     height: 200px;
     z-index: 2;
     background-color: transparent;
@@ -216,10 +237,10 @@ const filterquery = async ()=> {
     width: 100%;
     height: 100%;
     background-color: transparent;
-    background-image: url('@/assets/image/yun03.png');
+    background-image: url('https://zzh2003.oss-cn-heyuan.aliyuncs.com/yun03.png');
     background-size: 50% 50%;
     background-repeat: repeat-x;
-    animation: yunAnim 50s linear 1s infinite alternate;
+    animation: yunAnim 30s linear 1s infinite alternate;
 
 }
 .yun .yun2 {
@@ -228,10 +249,10 @@ const filterquery = async ()=> {
     width: 100%;
     height: 100%;
     background-color: transparent;
-    background-image: url('@/assets/image/bw01.png');
+    background-image: url('https://zzh2003.oss-cn-heyuan.aliyuncs.com/yun01.png');
     background-size: 50% 50%;
     background-repeat: repeat-x;
-    animation: yunAnim 10s linear 1s infinite alternate;
+    animation: yunAnim 40s linear 1s infinite alternate;
 }
 
 /* 主内容页面*/
@@ -526,7 +547,7 @@ box-shadow: none;
 @keyframes yunAnim
 {
     0% {left: 0;}
-    100% {left: -3000px;}
+    100% {left: -1000px;}
 }
 
 </style>

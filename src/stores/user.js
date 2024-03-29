@@ -5,7 +5,7 @@ import { login } from '@/apis/userAPI'
 export const userLoginStore = defineStore('userT', () => {
     //存储JWT的token
     const token = ref()
-    const userlogin = async (name,pwd)=>{
+    const userlogin = async (name)=>{
         const res =  await login(name)
         token.value = res.data
         return res

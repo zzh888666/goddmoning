@@ -55,13 +55,12 @@ const toCenter = ()=>{
         </div>
         <div class="globalNav">
             <div v-for="(item,index) in topmainNav" :key="index" class="globalNav-a">
-                    <a :href="item.path">
-                    <svg class="icon" aria-hidden="true">
-                    <use :xlink:href="item.icon"></use>
-                    </svg>
-                    <span>{{ item.title }}</span>
-                    </a>
-
+                    <router-link :to="item.path">
+                        <svg class="icon" aria-hidden="true">
+                        <use :xlink:href="item.icon"></use>
+                        </svg>
+                        <span>{{ item.title }}</span>
+                    </router-link>
                 </div>
 
         </div>
@@ -73,7 +72,7 @@ const toCenter = ()=>{
                     content="点击进入个人中心"
                     placement="bottom-end"
                 >
-                  <img src="https://zzh2003.oss-cn-heyuan.aliyuncs.com/dd893356-72a4-4b8c-b732-5269d4c3751c.jpg" alt="" @click="toCenter">
+                  <img src="https://zzh2003.oss-cn-heyuan.aliyuncs.com/tx.jpg" alt="" @click="toCenter">
 
                 </el-tooltip>
             </div>
@@ -92,7 +91,7 @@ const toCenter = ()=>{
     width: 100%;
     height: 50px;
     background-color: #fff;
-    box-shadow: 0 0 10px 5px #9f9e9e;
+    box-shadow: 0 0 10px 5px #e0e0e0;
     z-index: 3;
     display: flex;
 
@@ -105,16 +104,18 @@ const toCenter = ()=>{
     line-height: 50px;
 }
 .globalNav {
-    width: 30%;
+    width: 35%;
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .globalNav-a {
     /* width: 20%; */
     margin-left: 20px;
     color: #000;
+    cursor: grab;
     font-size: 20px;
 }
 .globalNav-a:hover {

@@ -3,6 +3,11 @@ import { onMounted, ref } from 'vue'
 import { getUserAcollect,getUserPcollect } from '@/apis/userAPI';
 import { useRouter } from 'vue-router';
 
+const show = ref(false)
+const ashow = ref(false)
+const pshow = ref(false)
+
+
 const router = useRouter()
 
 const activeName = ref('first')
@@ -16,6 +21,7 @@ const projectCollect = ref(
 )
 
 onMounted(async ()=>{
+    show.value = true
     getUserAcollect().then(res=>{
         articleCollect.value = res.data
     })
@@ -46,55 +52,87 @@ const toPDetails = (id) =>{
 
 <template>
 
-    <div class="center-collect">
+  <Transition>
+    <div class="center-collect" v-if="show">
         <div class="sc-bt">
             个人收藏
         </div>
 
         <el-tabs stretch v-model="activeName" class="demo-tabs" @tab-click="handleClick" tab-position="left">
-            <el-tab-pane label="文章" name="first">
-
-                
-                        <el-card style="max-width: 800px;cursor: grab;" v-for="item in articleCollect" :key="item.id"  @click="toADetails(item.id)"> 
-                            <template #header>
-                            <div class="card-header" >
-                                <span>{{ item.name }}</span>
-                            </div>
-                            </template>
-                            <div class="yw">
-                                <v-md-preview-html :html="item.details" preview-class="vuepress-markdown-body" ></v-md-preview-html>
-                            </div>
-                        </el-card>
-      
-            </el-tab-pane>
-            <el-tab-pane label="项目" name="second">
-                
-                <el-card style="max-width: 800px; padding: 10px;cursor: grab;" v-for="item in projectCollect" :key="item.id" @click="toPDetails(item.id)">
-                    <template #header>
-                    <div class="card-header">
-                        <span>{{ item.name }}</span>
-                    </div>
-                    </template>
-                    <div class="sc-p-jj">
-                        {{ item.readme }}
-                    </div>
+            <Transition name="ashow">
+                <el-tab-pane label="文章" name="first">
+                    <el-card style="max-width: 800px;cursor: grab;" v-for="item in articleCollect" :key="item.id"  @click="toADetails(item.id)"> 
+                        <template #header>
+                        <div class="card-header" >
+                            <span>{{ item.name }}</span>
+                        </div>
+                        </template>
+                        <div class="yw">
+                            <v-md-preview-html :html="item.details" preview-class="vuepress-markdown-body" ></v-md-preview-html>
+                        </div>
+                    </el-card>
+                </el-tab-pane>
+            </Transition>
+            <Transition name="pshow">
+                <el-tab-pane label="项目" name="second">
                     
-                </el-card>
-                
+                    <el-card style="max-width: 800px; padding: 10px;cursor: grab;" v-for="item in projectCollect" :key="item.id" @click="toPDetails(item.id)">
+                        <template #header>
+                        <div class="card-header">
+                            <span>{{ item.name }}</span>
+                        </div>
+                        </template>
+                        <div class="sc-p-jj">
+                            {{ item.readme }}
+                        </div>
+                        
+                    </el-card>
 
-            
-               
-
-
-            </el-tab-pane>
+                </el-tab-pane>
+            </Transition>
 
         </el-tabs>
     </div>
+  </Transition>
 
 </template>
 
 <style>
 
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
+/* .ashow-enter-to
+ {
+  transition: opacity 1s ease;
+} */
+
+.ashow-enter-active
+ {
+    animation: bounce-in 0.6s;
+}
+.pshow-enter-active
+ {
+    animation: bounce-in 0.6s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 .center-collect {
     width: 100%;

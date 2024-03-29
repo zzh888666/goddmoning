@@ -23,6 +23,10 @@
     height: 60px;
     background-color: $butColor;
     box-shadow: 0 1px 10px 0px rgba(0, 0, 0, 1);
+    position: relative;
+    bottom: -50px;
+    margin-top: 20px;
+    z-index: -10;
 }
 .butTop,.icp {
     width: 100%;

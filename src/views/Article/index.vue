@@ -5,7 +5,7 @@ import { getArticle,getArticleHeadline ,getArticleHot,getNewArticle} from '@/api
 import countcard from '@/components/countcard.vue';
 import { useRouter } from 'vue-router'
 
-
+const show = ref(false)
 
 const router = useRouter()
 
@@ -27,6 +27,8 @@ let newarticle = ref([{
     name:'',
 }])
 onMounted(async ()=> {
+    show.value = true
+    
     //获取文章列表
     const res = await getArticle()
     articleList.value = res.data
@@ -36,7 +38,6 @@ onMounted(async ()=> {
     // })
     const newres = await getNewArticle()
     newarticle.value = newres.data
-
     // 获取热点和头条、最新
     const hotres = await getArticleHot()
     hotarticle.value = hotres.data
@@ -93,7 +94,8 @@ const subNameSpan = (sname)=>{
 
 
 <template>
-    <div class="article">
+    <Transition>
+        <div class="article" v-if="show">
         <el-container>
             <el-header class="articleHeader">
                
@@ -194,7 +196,7 @@ const subNameSpan = (sname)=>{
                                         <el-option label="最多赞" value="最多赞" />
                                     </el-select>
                                 </el-form-item>
-                                <el-form-item label="分类">
+                                <!-- <el-form-item label="分类">
                                     <el-select
                                     v-model="formInline.region"
                                     placeholder="全部"
@@ -205,8 +207,8 @@ const subNameSpan = (sname)=>{
                                         <el-option label="后端" value="后端" />
                                         <el-option label="AI" value="AI" />
                                     </el-select>
-                                </el-form-item>
-                                <el-form-item label="标签">
+                                </el-form-item> -->
+                                <!-- <el-form-item label="标签">
                                     <el-select
                                     v-model="formInline.date"
                                     placeholder="全部"
@@ -217,7 +219,7 @@ const subNameSpan = (sname)=>{
                                         <el-option label="python" value="python" />
                                         <el-option label="vue3" value="vue3" />
                                     </el-select>
-                                </el-form-item>
+                                </el-form-item> -->
                                 
                                 
                             </el-form>
@@ -284,10 +286,25 @@ const subNameSpan = (sname)=>{
             </el-main>
         </el-container>
     </div>
+    </Transition>
 </template>
 
 
 <style>
+
+.v-enter-active {
+  transition: all .8s ease-out;
+}
+
+.v-leave-active {
+  transition: all 1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
 
 .article {
     width: 100%;
@@ -599,7 +616,10 @@ const subNameSpan = (sname)=>{
 {
     display: none;
 }
-
+.articlecard .articlejs ol,
+.articlecard .articlejs ul {
+    margin: 0 !important;
+}
 
 
 
@@ -648,7 +668,7 @@ const subNameSpan = (sname)=>{
 .article-page-stat {
     width: 100%;
     height: 300px;
-    background: linear-gradient(70deg, #fcbeb1, #d29ab3,#a191c1);
+    background: linear-gradient(70deg, #e97bbb, #e877aa,#eda6e0);
     background-size: 100%;
     border-radius: 10px;
     animation: bc 40s infinite;

@@ -4,6 +4,14 @@ import { storeToRefs } from 'pinia'
 import { userLoginStore } from '@/stores/user';
 import { addUser } from '@/apis/userAPI';
 import { useRouter } from 'vue-router'
+import md5 from 'js-md5';
+
+const show  = ref(false)
+
+onMounted(()=>{
+    show.value = true
+})
+
 const router = useRouter()
 //切换动画效果
 let cntisGx = ref(false);
@@ -75,13 +83,16 @@ const submitForm = (formEl) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      addUser({username:formLabelAlign.value.name,password:formLabelAlign.value.pwd}).then(res=>{
+      addUser({username:formLabelAlign.value.name,password:md5(formLabelAlign.value.pwd)}).then(res=>{
         if (res.code == 0) {
             ElNotification({
-                    title: '成功',
-                    message: '注册成功，请登录',
-                    type: 'success',
-                })
+                title: '成功',
+                message: '注册成功，请登录',
+                type: 'success',
+            })
+            formLabelAlign.value.name=''
+            formLabelAlign.value.pwd=''
+            formLabelAlign.value.checkpwd=''
         }
       })
 
@@ -110,7 +121,7 @@ const login = (formEl) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-        userlogin({username:loginform.value.name,pwd:loginform.value.pwd}).then(res=>{
+        userlogin({username:loginform.value.name,pwd:md5(loginform.value.pwd)}).then(res=>{
             if (res.code == 0) {
                 ElNotification({
                     title: '成功',
@@ -118,6 +129,12 @@ const login = (formEl) => {
                     type: 'success',
                 })
                 router.push('/')
+            }else {
+                ElNotification({
+                    title: '登录失败',
+                    message: '请检查用户名或密码',
+                    type: 'error',
+                })
             }
          })
         
@@ -131,19 +148,12 @@ const login = (formEl) => {
 
 <template>
 <div class="simplebody">
-    <div class="shell">
+    <Transition>
+        <div class="shell" v-if="show">
         <div :class="{simpelcontainer:true, 'a-container':true,'is-txl':isTxl}" id="a-container">
             <form action="" method="" class="form" id="a-form">
                 <h2 class="form_title title">创建账号</h2>
-                <!-- <div class="form_icons">
-                    <i class="iconfont icon-QQ"></i>
-                    <i class="iconfont icon-weixin"></i>
-                    <i class="iconfont icon-bilibili-line"></i>
-                </div>
-                <span class="form_span">选择注册方式活电子邮箱注册</span> -->
-                <!-- <input type="text" class="form_input" placeholder="用户名">
-                <input type="text" class="form_input" placeholder="密码">
-                <input type="text" class="form_input" placeholder="确认密码"> -->
+                
                 <el-form
                 class="zcform"
                     ref="ruleFormRef"
@@ -170,7 +180,6 @@ const login = (formEl) => {
                   
                 </el-form>
 
-                <!-- <button class="form_button button submit">注册</button> -->
             </form>
         </div>
         
@@ -205,9 +214,8 @@ const login = (formEl) => {
         </div>
 
         <div :class="{ 'switch': true , 'is-gx': cntisGx,'is-txr':circleIstxr}" id="switch-cnt">
-            <div :class="{'switch_circle':true ,'is-txr':circleIstxr}"></div>
+          
 
-            <div :class="{'switch_circle':true ,'switch_circle-t':true,'is-txr':circleIstxr}"></div>
             
             <div :class="{'switch_container':true,'is-hidden':contHiden}" id="switch-c1">
                 <h2 class="switch_title title" style="letter-spacing: 0;">欢迎光临本站</h2>
@@ -222,12 +230,33 @@ const login = (formEl) => {
             </div>
         </div>
     </div>
+    </Transition>
 
 </div>
 
 </template>
 
 <style lang="scss">
+
+
+.v-enter-active {
+  animation: bounce-in 0.6s;
+}
+.v-leave-active {
+  animation: bounce-in 0.6s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: translateY(-500px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 .loginform,
 .zcform{
     width: 50%;
@@ -244,8 +273,9 @@ const login = (formEl) => {
     justify-content: center;
     align-items: center;
     font-size: 12px;
-    background-color: #ecf0f3;
     color: #a0a5a8;
+    background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+    border-radius: 360px 360px 0 0 ;
 } 
 .shell {
     position: relative;
@@ -254,49 +284,59 @@ const login = (formEl) => {
     min-height: 600px;
     height: 600px;
     padding: 25px;
-    background-color: #ecf0f3;
-    box-shadow: 10px 10px 10px #d1d9e6, -10px -10px 10px #f9f9f9;
-    border-radius: 12px;
+    // background-color: #ecf0f3;
+    box-shadow: 20px 20px 20px #ffffff, -20px -20px 20px #f9f9f9;
+    border-radius: 10px;
     overflow: hidden;
+    transition: all .5s;
+
+
 }
 
 /* 设置响应式 */
 @media (min-width: 2000px) {
     .shell {
         transform: scale(2);
+        transition: all .5s;
     }
 }
 @media (min-width: 1800px) {
     .shell {
         transform: scale(1.5);
+        transition: all .5s;
     }
 }
 @media (min-width: 1500px) {
     .shell {
         transform: scale(1.3);
+        transition: all .5s;
     }
 }
 @media (max-width: 1200px) {
     .shell {
         transform: scale(0.7);
+        transition: all .5s;
     }
 }
 
 @media (max-width: 1000px) {
     .shell {
         transform: scale(0.6);
+        transition: all .5s;
     }
 }
 
 @media (max-width: 800px) {
     .shell {
         transform: scale(0.5);
+        transition: all .5s;
     }
 }
 
 @media (max-width: 600px) {
     .shell {
         transform: scale(0.4);
+        transition: all .5s;
     }
 }
 
@@ -313,6 +353,8 @@ const login = (formEl) => {
     padding: 25px;
     background-color: #ecf0f3;
     transition: 1.25s;
+
+    
 }
 
 .form {
@@ -430,6 +472,7 @@ const login = (formEl) => {
 }
 
 .switch_circle {
+    // display: none;
     position: absolute;
     width: 500px;
     height: 500px;

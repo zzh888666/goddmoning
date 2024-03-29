@@ -1,7 +1,16 @@
 <script setup>
-import { ref } from 'vue'; 
+import { onMounted, ref } from 'vue'; 
 import {addMessage} from '@/apis/message.js'
+
+const show = ref(false)
+
 const textarea = ref()
+
+
+onMounted(()=>{
+    show.value = true
+
+})
 
 const messagebut =  () => {
     addMessage({message:textarea.value.trim()}).then(res=>{
@@ -26,7 +35,8 @@ const messagebut =  () => {
 </script>
 
 <template>
-    <div class="message-common-layout">
+   <Transition>
+    <div class="message-common-layout" v-if="show">
         <el-container>
             <el-header></el-header>
             <el-main>
@@ -50,10 +60,23 @@ const messagebut =  () => {
             </el-main>
         </el-container>
   </div>
+   </Transition>
 
 </template>
 
 <style>
+
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .message-common-layout {
     width: 100%;
     height: 100%;

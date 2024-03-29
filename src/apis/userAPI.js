@@ -41,3 +41,23 @@ export function getUserPcollect(){
         url:'/user/pcollect'
     })
 }
+
+
+//更新信息
+export function updateUserInfo(data){
+    return http({
+        url:'/user/updateinfo',
+        method:"POST",
+        data:data
+    })
+}
+
+
+//修改密码
+export function updateUserPwd(data) {
+    return http({
+        url:"/user/updatepwd",
+        method:"PATCH",
+        data:data
+    })
+}

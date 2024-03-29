@@ -21,8 +21,6 @@ const toHome = () => {
 .login-header {
     width: 100%;
     height: 50px;
-    position: absolute;
-    top: 0;
     background-color: transparent;
     display: flex;
     justify-content: center;

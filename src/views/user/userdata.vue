@@ -2,11 +2,14 @@
 import { ref,onMounted } from 'vue';
 import { getUserInfo } from '@/apis/userAPI';
 
+const show = ref(false)
+
 const userinfo = ref({
     email:'',
     phone:""
 })
 onMounted(async()=>{
+    show.value = true
     const res =  await getUserInfo()
     userinfo.value = res.data
 })
@@ -14,38 +17,61 @@ onMounted(async()=>{
 
 
 <template>
-<div class="center-card">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-youxiang1-copy"></use>
-                    </svg>
-                    <span>邮箱</span>
-                    <div class="center-card-js">
-                        {{ userinfo.email }}
-                    </div>
-                </div>
-                <div class="center-card">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-dianhua-copy"></use>
-                    </svg>
-                    <span>电话</span>
-                    <div class="center-card-js">
-                        {{ userinfo.phone }}
-                    </div>
-                </div>
-                <div class="center-card">
-                    <svg class="icon" aria-hidden="true">
-                        <use xlink:href="#icon-xingbie-copy"></use>
-                    </svg>
-                    <span>性别</span>
-                    <div class="center-card-js">
-                       男
-                    </div>
-                </div>
+<Transition>
+    <div class="center-card" v-if="show">
+        <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-youxiang1-copy"></use>
+        </svg>
+        <span>邮箱</span>
+        <div class="center-card-js">
+            {{ userinfo.email }}
+        </div>
+    </div>
+</Transition>
+<Transition>
+    <div class="center-card" v-if="show">
+    <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-dianhua-copy"></use>
+    </svg>
+    <span>电话</span>
+    <div class="center-card-js" >
+        {{ userinfo.phone }}
+    </div>
+</div>
+</Transition>
+<Transition>
+    <div class="center-card" v-if="show">
+    <svg class="icon" aria-hidden="true">
+        <use xlink:href="#icon-xingbie-copy"></use>
+    </svg>
+    <span>性别</span>
+    <div class="center-card-js">
+        男
+    </div>
+</div>
+</Transition>
 
 
 </template>
 
 <style>
+.v-enter-active {
+  animation: bounce-in 0.6s;
+}
+.v-leave-active {
+  animation: bounce-in 0.6s reverse;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 .center-card {
     position: relative;
@@ -57,7 +83,7 @@ onMounted(async()=>{
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
-    
+    box-shadow: 0 0 10px 5px #d2d2d2;
     justify-content: center;
     overflow: hidden;
 }

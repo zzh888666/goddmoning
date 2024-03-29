@@ -1,5 +1,12 @@
 <script setup>
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+const show  = ref(false)
+
+
+onMounted(()=>{
+    show.value = true
+})
 
 const router = useRouter()
 const toProject = ()=>{
@@ -16,28 +23,34 @@ const toProject = ()=>{
             <p>优选</p>      
         </div>
         <div class="hpomepagemain">
-        <ul>
-            <li @click="toProject">
-                <p>github</p>
-                <span>分享github上高质量、高使用、有趣项目</span>
-            </li>
-            <li @click="router.push('/article')">
-                <p>文章</p>
 
-                <span>分享网络有价值的文章</span>
-                
-            </li >
-            <li @click="router.push('/course')">
-                <p>教程</p>
+        <Transition name="lj">
 
-                <span>简洁，高质量教程</span>
-            </li>
-            <li @click="router.push('/message')">
-                <p>反馈</p>
+            <ul v-if="show">
+                <li @click="toProject">
+                    <p>github</p>
+                    <span>分享github上高质量、高使用、有趣项目</span>
+                </li>
+                <li @click="router.push('/article')">
+                    <p>文章</p>
 
-                <span>向我反馈问题或者优质项目、文章</span>
-            </li>
-        </ul>
+                    <span>分享网络有价值的文章</span>
+                    
+                </li >
+                <li @click="router.push('/course')">
+                    <p>教程</p>
+
+                    <span>简洁，高质量，实用教程</span>
+                </li>
+                <li @click="router.push('/message')">
+                    <p>反馈</p>
+
+                    <span>向我反馈问题或者优质项目、文章</span>
+                </li>
+            </ul>
+        </Transition>
+
+        
     </div>
 
     <div class="homelianxi" >
@@ -121,8 +134,20 @@ const toProject = ()=>{
 </template>
 
 <style>
+
+.lj-enter-active,
+.lj-leave-active {
+  transition: opacity 2s ease;
+}
+
+.lj-enter-from,
+.lj-leave-to {
+  opacity: 0;
+}
+
 .homepage {
     font-family: "微软雅黑";
+    min-width: 1200px;
 
 }
 .zzh {
@@ -137,6 +162,7 @@ const toProject = ()=>{
     margin: 10px auto;
     width: 75vw;
     height: 550px;
+    min-width: 650px;
     /* background-color: antiquewhite; */
     
 }
@@ -204,6 +230,7 @@ const toProject = ()=>{
 .homelianxi {
     margin: 100px auto;
     width: 75vw;
+    min-width: 650px;
 }
 .aboutme {
     width: 100%;
@@ -262,5 +289,28 @@ const toProject = ()=>{
 .pass {
     width: 100%;
     height: 20vh;
+    
 }
+
+
+
+@media (max-width:1200px) {
+    .hpomepagemain ul {
+        flex-flow: column;
+    }
+    .hpomepagemain ul li {
+        width: 65%;
+        margin-top: 15px;
+    }
+    .aboutmecard {
+        flex-flow: column;
+        height: 450px;
+    }
+    .aboutmenav {
+        width: 50%;
+        margin-top: 15px;
+    }
+}
+
+
 </style>
