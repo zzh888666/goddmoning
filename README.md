@@ -7,36 +7,34 @@
 >[!tip]
 >项目的演示地址：[https://www.zzhwr.top](https://www.zzhwr.top)
 >当前github页面为项目的前端
+>项目使用vue3+Springboot3+ElementPlus+MyBatisPlus等主流技术
+>vue3使用组合式API编程
 
-This template should help get you started developing with Vue 3 in Vite.
 
-## Recommended IDE Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+# 项目启动说明
 
-## Project Setup
+## 安装依赖
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 启动项目
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+### 项目打包
 
 ```sh
 npm run build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+###  ESLint检查
 
 ```sh
 npm run lint
